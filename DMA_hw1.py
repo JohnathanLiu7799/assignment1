@@ -142,12 +142,15 @@ reject_null_list = list()   # this will store the results of the significance te
 z_score_list = list()   # this still store the z-scores from each test
 p_value_list = list()   # this will store the p-values from each test
 for i in range(0, num_samples):
-    t_perc_of_trial_data_to_use = None  ##### Replace None with the formula for what percent of the trial data should be used
+    t_perc_of_trial_data_to_use = .4812  ##### Replace None with the formula for what percent of the trial data should be used
+    ### Should it be 2406/5000 or 2406/10000? .4812 = 2406/5000
     t_sample = variantB_outcomes.sample(frac=min(t_perc_of_trial_data_to_use, 1))   ##### No changes needed, but think about why we're using a min() function here
     t_reject, t_z_score, t_p_value = reject_null(variantA_outcomes, t_sample, alpha, num_sides)
 
     variantB_outcomes_samples.append(list(t_sample))    ##### No changes needed, but investigate what the append function is doing here
-    ##### Add lines here to update the remainder of the lists initilaized before this loop
+    reject_null_list.append(t_reject)
+    z_score_list.append(t_z_score)
+    p_value_list.append(t_p_value)
 
 print("For %d samples of optimal sample size %d, %3.2f%% rejected the null" % (num_samples, n_star, calc_proportion(reject_null_list)*100))
 
